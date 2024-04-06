@@ -11,20 +11,22 @@ const VodModel = cloud.vod.v20180717.Models;
 const Credential = cloud.common.Credential;
 
 class VodUploadClient {
-    constructor(secretId, secretKey, token) {
+    constructor(secretId, secretKey, token, protocol, domain) {
         this.secretId = secretId || null;
         this.secretKey = secretKey || null;
         this.token = token || null;
         this.ignoreCheck = false;
+        this.protocol = protocol || null;
+        this.domain = domain || null;
     }
 
-    upload(region, request, callback, onProgress=null) {
-        this.handleUpload(region, request, onProgress).then(data => callback(null, data)).catch(err => callback(err, null));
+    upload(region, request, callback, onProgress = null, profile = null) {
+        this.handleUpload(region, request, onProgress, profile).then(data => callback(null, data)).catch(err => callback(err, null));
     }
 
-    async handleUpload(region, request, onProgress) {
+    async handleUpload(region, request, onProgress, profile) {
         const cred = new Credential(this.secretId, this.secretKey, this.token);
-        const cloudClient = new VodClient(cred, region);
+        const cloudClient = new VodClient(cred, region, profile);
 
         if (!this.ignoreCheck) {
             this.prefixCheckAndSetDefaultVal(region, request);
@@ -44,13 +46,17 @@ class VodUploadClient {
         if (applyUploadResponse.TempCertificate == null) {
             cosClient = new COS({
                 SecretId: this.secretId,
-                SecretKey: this.secretKey
+                SecretKey: this.secretKey,
+                Protocol: this.protocol,
+                Domain: this.domain,
             })
         } else {
             cosClient = new COS({
                 SecretId: applyUploadResponse.TempCertificate.SecretId,
                 SecretKey: applyUploadResponse.TempCertificate.SecretKey,
-                XCosSecurityToken: applyUploadResponse.TempCertificate.Token
+                XCosSecurityToken: applyUploadResponse.TempCertificate.Token,
+                Protocol: this.protocol,
+                Domain: this.domain,
             });
         }
 
