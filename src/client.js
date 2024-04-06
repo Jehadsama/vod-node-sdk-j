@@ -20,11 +20,11 @@ class VodUploadClient {
         this.domain = domain || null;
     }
 
-    upload(region, request, callback, onProgress = null, profile = null) {
-        this.handleUpload(region, request, onProgress, profile).then(data => callback(null, data)).catch(err => callback(err, null));
+    upload(region, profile, request, callback, onProgress = null) {
+        this.handleUpload(region, profile, request, onProgress).then(data => callback(null, data)).catch(err => callback(err, null));
     }
 
-    async handleUpload(region, request, onProgress, profile) {
+    async handleUpload(region, profile, request, onProgress) {
         const cred = new Credential(this.secretId, this.secretKey, this.token);
         const cloudClient = new VodClient(cred, region, profile);
 
