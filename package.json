@@ -1,25 +1,22 @@
 {
   "name": "vod-node-sdk",
   "version": "1.1.1",
-  "description": "vod node sdk",
+  "description": "vod node sdk (allow to pass profile)",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tencentyun/vod-node-sdk"
+    "url": "https://github.com/jehadsama/vod-node-sdk-j"
   },
-  "bugs": {
-    "url": "https://github.com/tencentyun/vod-node-sdk/issues"
-  },
-  "homepage": "https://github.com/tencentyun/vod-node-sdk#readme",
+  "homepage": "https://github.com/jehadsama/vod-node-sdk#readme",
   "keywords": [
     "tencent cloud",
     "vod-sdk",
     "vod-node-sdk"
   ],
-  "author": "jianguoxu",
+  "author": "jehadsama",
   "license": "MIT",
   "dependencies": {
     "cos-nodejs-sdk-v5": "^2.5.6",
